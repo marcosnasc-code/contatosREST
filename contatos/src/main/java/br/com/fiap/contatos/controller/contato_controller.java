@@ -1,6 +1,7 @@
 package br.com.fiap.contatos.controller;
 
 
+import br.com.fiap.contatos.dto.contato_exibicao_dto;
 import br.com.fiap.contatos.model.contato_model;
 import br.com.fiap.contatos.service.contato_service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class contato_controller {
 
     @PostMapping("/contatos")
     @ResponseStatus(HttpStatus.CREATED)
-    public contato_model gravar (@RequestBody contato_model contato){
+    public contato_exibicao_dto gravar (@RequestBody contato_model contato){
         //Quando se faz um @PostMapping é preciso informar qual o 'contato' a ser gravado no BD;
         //@RequestBody indica ao REST que um novo contato será gravado e que ele está vindo a partir de uma requisição HTTP do tipo POST. Ele deve buscar esse contato no corpo da requisição. Esse contato será enviado na forma de um texto (json) e será transformado em um objeto contato pelo REST
         return contato_service.gravar(contato);
@@ -27,7 +28,7 @@ public class contato_controller {
 
     @GetMapping("/contatos")
     @ResponseStatus(HttpStatus.OK)
-    public List<contato_model> listarAllContatos(){
+    public List<contato_exibicao_dto> listarAllContatos(){
         return contato_service.ListarAllContatos();
     }
 
@@ -57,7 +58,7 @@ public class contato_controller {
 
     @GetMapping("contatos/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public contato_model buscarPorId(@PathVariable Long id){
+    public contato_exibicao_dto buscarPorId(@PathVariable Long id){
         return contato_service.buscarPorId(id);
     }
 
