@@ -1,9 +1,12 @@
 package br.com.fiap.contatos.service;
 
 
+import br.com.fiap.contatos.dto.contato_cadastro_dto;
 import br.com.fiap.contatos.dto.contato_exibicao_dto;
+import br.com.fiap.contatos.exception.usuario_nao_encontrato_exception;
 import br.com.fiap.contatos.model.contato_model;
 import br.com.fiap.contatos.repository.contato_repository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,14 @@ public class contato_service {
     @Autowired //@autowired serve para instanciar a interface no service
     private contato_repository contatoRepository;
 
-    public contato_exibicao_dto gravar(contato_model contato) {
+    //POSTERIORMENTE FAZER VALIDAÇÃO DE DADOS EM TODOS OS MÉTODOS
+
+    public contato_exibicao_dto gravar(contato_cadastro_dto contatocadastrodto) {
+        contato_model contato = new contato_model();
+        BeanUtils.copyProperties(contatocadastrodto, contato);
+        //BeanUtils é usada para copiar propriedades de um objeto para outro de forma automática.
+        //Ela é útil para converter entidades em DTOs, fazer atualizações parciais e reduzir código repetitivo.
+        //Ela copia valores de atributos com o mesmo nome e tipo do objeto origem para o destino.
         return new contato_exibicao_dto(contatoRepository.save(contato));
     }
 
@@ -26,7 +36,7 @@ public class contato_service {
         if (contatoModelOptional.isPresent()) {
             return new contato_exibicao_dto(contatoModelOptional.get());
         } else {
-            throw new RuntimeException("Contato não encontrado");
+            throw new usuario_nao_encontrato_exception("Contato não encontrado");
         }
     }
 
@@ -51,6 +61,9 @@ public class contato_service {
         return contatoRepository.findByDataNascimentoBetween(dataInicial, dataFinal);
     }
 
+    //
+    // - FAZER VALIDAÇÃO COM BEAN VALIDATION NO METODO ATUALIZAR
+    //
     public contato_model atualizar(contato_model contato) {
         Optional<contato_model> optionalContatoModel = contatoRepository.findById(contato.getId());
         if (optionalContatoModel.isPresent()) {
@@ -59,6 +72,9 @@ public class contato_service {
             throw new RuntimeException("Contato não encontrado.");
         }
     }
+    //
+    //
+    //
 
     public contato_model buscarPorNome(String nome) {
         Optional<contato_model> optionalContatoModel = contatoRepository.findByNome(nome);

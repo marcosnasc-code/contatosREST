@@ -1,9 +1,11 @@
 package br.com.fiap.contatos.controller;
 
 
+import br.com.fiap.contatos.dto.contato_cadastro_dto;
 import br.com.fiap.contatos.dto.contato_exibicao_dto;
 import br.com.fiap.contatos.model.contato_model;
 import br.com.fiap.contatos.service.contato_service;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +22,13 @@ public class contato_controller {
 
     @PostMapping("/contatos")
     @ResponseStatus(HttpStatus.CREATED)
-    public contato_exibicao_dto gravar (@RequestBody contato_model contato){
-        //Quando se faz um @PostMapping é preciso informar qual o 'contato' a ser gravado no BD;
-        //@RequestBody indica ao REST que um novo contato será gravado e que ele está vindo a partir de uma requisição HTTP do tipo POST. Ele deve buscar esse contato no corpo da requisição. Esse contato será enviado na forma de um texto (json) e será transformado em um objeto contato pelo REST
-        return contato_service.gravar(contato);
+    public contato_exibicao_dto gravar (@RequestBody @Valid contato_cadastro_dto contatoCadastroDto){
+        //Quando se faz um @PostMapping é preciso informar qual o 'contatoDto' a ser gravado no BD;
+        //@RequestBody indica ao REST que um novo contatoDto será gravado e que ele está vindo a partir de uma requisição HTTP do tipo POST.
+        //Ele deve buscar esse contato no corpo da requisição. Esse contato será enviado na forma de um texto (json) e será transformado em um objeto contato pelo REST
+
+        //@Valid pertence ao Bean Validation, para o metodo validar os dados de entrada
+        return contato_service.gravar(contatoCadastroDto);
     }
 
     @GetMapping("/contatos")
@@ -38,11 +43,17 @@ public class contato_controller {
         contato_service.excluir(id);
     }
 
+    //
+    // - FAZER O BEAN VALIDATION AQUI TAMBÉM -
+    //
     @PutMapping("/contatos")
     @ResponseStatus(HttpStatus.OK)
     public contato_model atualizar(@RequestBody contato_model contato){
         return contato_service.atualizar(contato);
     }
+    //
+    //
+    //
 
     @GetMapping("contatos/{nome}")
     @ResponseStatus(HttpStatus.OK)
