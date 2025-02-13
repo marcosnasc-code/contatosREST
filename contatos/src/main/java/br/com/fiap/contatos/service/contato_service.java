@@ -8,6 +8,8 @@ import br.com.fiap.contatos.model.contato_model;
 import br.com.fiap.contatos.repository.contato_repository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,8 +42,10 @@ public class contato_service {
         }
     }
 
-    public List<contato_exibicao_dto> ListarAllContatos() {
-        return contatoRepository.findAll().stream().map(contato_exibicao_dto::new).toList();
+    //Listar todos os contatos vai estar paginado como exemplo
+    //Tipo pageable <springframework.data.domain>
+    public Page<contato_exibicao_dto> ListarAllContatos(Pageable paginacao) {
+        return contatoRepository.findAll(paginacao).map(contato_exibicao_dto::new);
         //.findall -> retorna uma lista <contatos> buscando todos as informações do bd;
         //.stream -> cria um fluxo de dados afim de transformar <contatos> em <contato_exibicao_dto> de maneira mais limpa, sem usar um forloop;
         //.map -> intera sobre cada dado. Ele que faz a transformação de <contato> em um novo objeto <contato_exibicao_dto> dentro do stream;
@@ -57,13 +61,14 @@ public class contato_service {
         }
     }
 
-    public List<contato_model> mostrarAniversariantes(LocalDate dataInicial, LocalDate dataFinal) {
-        return contatoRepository.findByDataNascimentoBetween(dataInicial, dataFinal);
+
+    public List<contato_exibicao_dto> mostrarAniversariantes(LocalDate dataInicial, LocalDate dataFinal) {
+        return contatoRepository.listarAniversariantes(dataInicial, dataFinal)
+                .stream()
+                .map(contato_exibicao_dto::new)
+                .toList();
     }
 
-    //
-    // - FAZER VALIDAÇÃO COM BEAN VALIDATION NO METODO ATUALIZAR
-    //
     public contato_model atualizar(contato_model contato) {
         Optional<contato_model> optionalContatoModel = contatoRepository.findById(contato.getId());
         if (optionalContatoModel.isPresent()) {
@@ -72,16 +77,22 @@ public class contato_service {
             throw new RuntimeException("Contato não encontrado.");
         }
     }
-    //
-    //
-    //
 
-    public contato_model buscarPorNome(String nome) {
-        Optional<contato_model> optionalContatoModel = contatoRepository.findByNome(nome);
+    public contato_exibicao_dto buscarPorNome(String nome) {
+        Optional<contato_model> optionalContatoModel = contatoRepository.buscarPeloNome(nome);
         if (optionalContatoModel.isPresent()) {
-            return optionalContatoModel.get();
+            return new contato_exibicao_dto(optionalContatoModel.get());
         } else {
-            throw new RuntimeException("Nome não encontrado.");
+            throw new usuario_nao_encontrato_exception("Nome não encontrado.");
+        }
+    }
+
+    public contato_exibicao_dto buscarPorEmail(String email){
+        Optional<contato_model> optionalContatoModel = contatoRepository.findByEmail(email);
+        if (optionalContatoModel.isPresent()){
+            return new contato_exibicao_dto(optionalContatoModel.get());
+        }else {
+            throw new usuario_nao_encontrato_exception("Email não encontrado!");
         }
     }
 

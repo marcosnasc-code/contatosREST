@@ -1,0 +1,4 @@
+> Terminar a Bean Validation -- Validações de Dados -- no código;
+> Trocar o resto dos retorno dos métodos para dto;
+> Rever conceitos da classe _repository;
+> Tentar achar e fazer novas RunsExceptions no handler;
