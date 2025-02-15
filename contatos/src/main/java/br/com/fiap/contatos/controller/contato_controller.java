@@ -76,10 +76,10 @@ public class contato_controller {
         return contato_service.buscarPorId(id);
     }
 
-    @GetMapping("contatos/email/{email}")
-    public contato_exibicao_dto buscarPorEmail(@PathVariable String email){
-        return contato_service.buscarPorEmail(email);
-    }
+    //@GetMapping("contatos/email/{email}")
+    //public contato_exibicao_dto buscarPorEmail(@PathVariable String email){
+    //    return contato_service.buscarPorEmail(email);
+    //}
 
 
 }
