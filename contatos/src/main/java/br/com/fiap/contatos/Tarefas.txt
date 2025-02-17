@@ -2,3 +2,8 @@
 > Trocar o resto dos retorno dos métodos para dto;
 > Rever conceitos da classe _repository;
 > Tentar achar e fazer novas RunsExceptions no handler;
+> O método atualizar de usuário_service não funciona como deveria.
+    O método escrito não leva em consideração retornos nulos de usuários;
+    para isso é necessário colocar um optional;
+    porém, optionals não retornam UserDetails, então outras partes do código quebram;
+    Verificar se a maneira implementada atende o código corretamente;

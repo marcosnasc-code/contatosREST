@@ -45,7 +45,8 @@ public class contato_service {
     //Listar todos os contatos vai estar paginado como exemplo
     //Tipo pageable <springframework.data.domain>
     public Page<contato_exibicao_dto> ListarAllContatos(Pageable paginacao) {
-        return contatoRepository.findAll(paginacao).map(contato_exibicao_dto::new);
+        return contatoRepository.findAll(paginacao)
+                .map(contato_exibicao_dto::new);
         //.findall -> retorna uma lista <contatos> buscando todos as informações do bd;
         //.stream -> cria um fluxo de dados afim de transformar <contatos> em <contato_exibicao_dto> de maneira mais limpa, sem usar um forloop;
         //.map -> intera sobre cada dado. Ele que faz a transformação de <contato> em um novo objeto <contato_exibicao_dto> dentro do stream;

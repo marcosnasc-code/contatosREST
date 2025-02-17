@@ -1,6 +1,8 @@
 package br.com.fiap.contatos.controller;
 
 import br.com.fiap.contatos.dto.usuario_cadastro_dto;
+import br.com.fiap.contatos.dto.usuario_exibicao_dto;
+import br.com.fiap.contatos.service.usuario_service;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class auth_controller {
     private AuthenticationManager authenticationManager;
     //Criando um ponto para um manejador de autenticação
 
+    @Autowired
+    private usuario_service usuarioService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid usuario_cadastro_dto usuarioCadastroDto){
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(
@@ -28,6 +33,14 @@ public class auth_controller {
 
         return ResponseEntity.ok().build();
         //se estiver tudo okay o metodo retorna o status de ok.
+
+    }
+
+    @PostMapping("/registro")
+    public ResponseEntity registrar(@RequestBody @Valid usuario_cadastro_dto usuarioCadastroDto){
+        usuario_exibicao_dto usuarioSalvo = null;
+        usuarioSalvo = usuarioService.gravar(usuarioCadastroDto);
+        return ResponseEntity.created(usuarioSalvo);
 
     }
 
