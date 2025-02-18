@@ -31,6 +31,7 @@ public class security_config {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/registro").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/contatos").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/contatos").hasRole("admin")
                         .anyRequest()

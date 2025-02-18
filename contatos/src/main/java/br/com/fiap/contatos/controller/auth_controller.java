@@ -1,5 +1,6 @@
 package br.com.fiap.contatos.controller;
 
+import br.com.fiap.contatos.dto.login_dto;
 import br.com.fiap.contatos.dto.usuario_cadastro_dto;
 import br.com.fiap.contatos.dto.usuario_exibicao_dto;
 import br.com.fiap.contatos.service.usuario_service;
@@ -24,9 +25,9 @@ public class auth_controller {
     private usuario_service usuarioService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid usuario_cadastro_dto usuarioCadastroDto){
+    public ResponseEntity login(@RequestBody @Valid login_dto loginDto){
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(
-                usuarioCadastroDto.email(), usuarioCadastroDto.senha());
+                loginDto.email(), loginDto.senha());
         //recebendo o email e senha do usuario pelo link e criando um novo objeto tipo UsernamePassword
 
         Authentication auth = authenticationManager.authenticate(usernamePassword);
