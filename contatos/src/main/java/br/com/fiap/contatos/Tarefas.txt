@@ -13,3 +13,5 @@ v O método atualizar de usuário_service não funciona como deveria.
     para isso é necessário colocar um optional;
     porém, optionals não retornam UserDetails, então outras partes do código quebram;
     Verificar se a maneira implementada atende o código corretamente;
+> Pesquisar sobre criptografia com hash
+    - foi usado como exemplo na aplicação o hmac256, ver sobre ele
