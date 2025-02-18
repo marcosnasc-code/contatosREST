@@ -5,6 +5,7 @@ import br.com.fiap.contatos.dto.usuario_exibicao_dto;
 import br.com.fiap.contatos.service.usuario_service;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,11 +38,11 @@ public class auth_controller {
     }
 
     @PostMapping("/registro")
-    public ResponseEntity registrar(@RequestBody @Valid usuario_cadastro_dto usuarioCadastroDto){
+    @ResponseStatus(HttpStatus.CREATED)
+    public usuario_exibicao_dto registrar(@RequestBody @Valid usuario_cadastro_dto usuarioCadastroDto){
         usuario_exibicao_dto usuarioSalvo = null;
         usuarioSalvo = usuarioService.gravar(usuarioCadastroDto);
-        return ResponseEntity.created(usuarioSalvo);
-
+        return usuarioSalvo;
     }
 
 }

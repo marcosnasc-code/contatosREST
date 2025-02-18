@@ -30,6 +30,7 @@ public class security_config {
         return httpSecurity.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/auth/registro").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/contatos").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/contatos").hasRole("admin")
                         .anyRequest()
@@ -52,7 +53,6 @@ public class security_config {
     @Bean
     public PasswordEncoder password_Encoder(){
         return new BCryptPasswordEncoder();
-
     }
 
 }

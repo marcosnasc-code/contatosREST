@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,15 @@ public class usuario_service {
     @Autowired //instanciar o usuario repository na classe service
     private usuario_repository usuarioRepository;
 
+
     public usuario_exibicao_dto gravar(usuario_cadastro_dto usuarioCadastroDto){
+
+        String senhaCriptografada = new BCryptPasswordEncoder().encode(usuarioCadastroDto.senha());
+
         usuario_model usuario = new usuario_model();
         BeanUtils.copyProperties(usuarioCadastroDto, usuario);
         //CopyProperties vai fazer a cópia de dados do usuariocadastrodto para a variável usuario
+        usuario.setSenha(senhaCriptografada);
 
         return new usuario_exibicao_dto(usuarioRepository.save(usuario));
     }
@@ -63,4 +69,8 @@ public class usuario_service {
         }
     }
     //Atualizar -- Não verificado completamente -- Tarefas
+
+
+
+
 }
