@@ -36,6 +36,9 @@ public class security_config {
                         .requestMatchers(HttpMethod.POST, "/api/contatos").hasRole("admin")
                         .anyRequest()
                         .authenticated())
+                .addFilterBefore(
+
+                )
                 .build();
 
     }
