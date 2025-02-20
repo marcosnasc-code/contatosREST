@@ -20,4 +20,6 @@ public interface contato_repository extends JpaRepository<contato_model, Long> {
     @Query("SELECT c FROM contato_model c WHERE c.dataNascimento BETWEEN :dataInicial AND :dataFinal")
     List<contato_model> listarAniversariantes(@Param("dataInicial") LocalDate dataInicial, @Param("dataFinal") LocalDate dataFinal);
 
+
+
 }

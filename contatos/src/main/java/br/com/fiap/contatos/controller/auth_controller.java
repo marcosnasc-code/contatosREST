@@ -42,8 +42,8 @@ public class auth_controller {
         //usando o objeto criado para fazer a autenticacao com o manejador criado anteriormente;
         String token = tokenService.gerarToken((usuario_model) auth.getPrincipal());
         //var token recebe o token gerado por gerarToken que está recebendo como parametro
-        //(usuario_model) auth.getPrincipal() -> auth.getprincipal pega os atributos do usuario
-        //(usuario_model) -> transforma auth em um objeto tipo usuario_model
+        //auth.getPrincipal() -> retorna o objeto do usuário autenticado com seus atributos
+        //(usuario_model) -> transforma a var auth em um objeto tipo usuario_model
 
         return ResponseEntity.ok(new token_dto(token));
         //se estiver tudo okay o metodo retorna o status de ok junto com o token.

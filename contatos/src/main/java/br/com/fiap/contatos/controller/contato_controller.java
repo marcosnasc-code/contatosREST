@@ -50,6 +50,9 @@ public class contato_controller {
     @PutMapping("/contatos")
     @ResponseStatus(HttpStatus.OK)
     public contato_model atualizar(@RequestBody contato_model contato){
+        //retorna um contato model pra poder visualizar todas as informações atualizadas
+        //incluindo a senha (caso essa seja atualizada)
+        //Por esse motivo não tem porque usar as classes dto
         return contato_service.atualizar(contato);
     }
 

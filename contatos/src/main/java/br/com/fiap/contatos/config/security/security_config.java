@@ -36,8 +36,14 @@ public class security_config {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/registro").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/contatos").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/contatos").hasRole("admin")
+                        .requestMatchers(HttpMethod.GET, "/api/contatos").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/api/contatos").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/contatos").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/contatos").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/usuarios/gravar").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/usuarios/listar").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT, "/usuarios/atualizar").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/usuarios/excluir").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated())
                 .addFilterBefore(
