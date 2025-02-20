@@ -33,7 +33,8 @@ public class verificar_token extends OncePerRequestFilter {
             HttpServletResponse response, //dados da resposta devolvida ao user
             FilterChain filterChain) throws ServletException, IOException { //corrente de filtragem + lançamento de excessoes
 
-        String authorizationHeader = request.getHeader("Autorization"); //Bearer tocken
+        String authorizationHeader = request.getHeader("Autorization");
+        //exemplo String do header -> Bearer ToKeN321421nncu21cm32iocn3oi2
         String token = "";
 
         if (authorizationHeader == null) {
@@ -41,15 +42,18 @@ public class verificar_token extends OncePerRequestFilter {
         } else {
             token = authorizationHeader.replace("Bearer", "").trim(); //manipula a string para o bearer virar nada e o .trim limpa os espaços no inicio e final
             String login = tokenService.validarToken(token);
-            Optional<usuario_model> usuario = usuarioRepository.findByEmail(login);
+            Optional<usuario_model> usuario = usuarioRepository.findByEmail(login); //VERIFICAR SE ISSO FUNCIONA PARA O CASO DO USERDETAILS
+            // ^ procura os UserDetails a partir do login do usuario para verificar as autoridades/permissões do usuario
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    usuario,
+                    usuario, //passando o usuário
                     null,
-                    usuario.get().getAuthorities()
+                    usuario.get().getAuthorities() //passando as autoridades/permissões do usuario
             );
 
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            //define a autenticação do usuário no contexto de segurança do Spring Security,
+            //permitindo que o sistema reconheça que o usuário está autenticado.
 
         }
 

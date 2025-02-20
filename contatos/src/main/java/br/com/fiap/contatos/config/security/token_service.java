@@ -38,12 +38,13 @@ public class token_service {
 
     public String validarToken(String token){
         try{
-            Algorithm algorithm = Algorithm.HMAC256(token);
-            return JWT.require(algorithm)
-                    .withIssuer("Contatos")
-                    .build()
-                    .verify(token)
-                    .getSubject();
+            Algorithm algorithm = Algorithm.HMAC256(token); //define o algoritmo hash de criptografia pra passar o token
+            return JWT //começa a construção do verificador JWT
+                    .require(algorithm) //define o algoritmo de validacao da assinatura do token
+                    .withIssuer("Contatos") // especifica o emissor do token
+                    .build() //finaliza a configuração do verificador e prepara pra validar o token
+                    .verify(token) //verifica o token
+                    .getSubject(); //retorna o subject - login do usuario
         } catch (JWTVerificationException erro){
             return "";
         }

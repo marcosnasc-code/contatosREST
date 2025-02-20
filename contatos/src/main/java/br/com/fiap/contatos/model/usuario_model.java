@@ -35,6 +35,7 @@ public class usuario_model implements UserDetails {
     private String email;
     private String senha;
 
+
     @Enumerated(EnumType.STRING) //Saber se a classe enum vai buscar por valor numerico ou pelo texto cadastrado na classe enum
     private usuario_role role; //papel do usuario entre user normal ou user admin;
 
